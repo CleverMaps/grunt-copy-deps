@@ -122,6 +122,18 @@ module.exports = function (grunt) {
       }
       
     }
+    if( options.include.other ) {
+      
+      // Start a glob path.
+      var glob = 'node_modules/';
+      
+      for(var o in options.include.other) {
+        
+        includes.push({ src: glob + o, dest: options.include.other[o] });
+        
+      }
+      
+    }
 
     // Resolve globs.
     files = grunt.file.expand(files);
@@ -264,7 +276,7 @@ module.exports = function (grunt) {
     includes.forEach(function(include){
       include.src.forEach(function(file){
         
-        var filename = path.basename(file), destination = [null, include.dest];
+        var filename = path.basename(file), destination = [dest instanceof Object ? dest.other : dest, include.dest];
 
         if( options.css === true && file.indexOf('.css') > -1 ) {
 
